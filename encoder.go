@@ -70,6 +70,39 @@ func (e *encoder) traverseStruct(v reflect.Value, namespace []byte, idx int) {
 	}
 }
 
+func (e *encoder) traverseSubStruct(v reflect.Value, namespace []byte, idx int) {
+
+	typ := v.Type()
+	l := len(namespace)
+	first := l == 0
+
+	// anonymous structs will still work for caching as the whole definition is stored
+	// including tags
+	s, ok := e.e.structCache.Get(typ)
+	if !ok {
+		s = e.e.structCache.parseStruct(e.e.mode, v, typ, e.e.tagName)
+	}
+
+	for _, f := range s.fields {
+		namespace = namespace[:l]
+
+		if f.isAnonymous && e.e.embedAnonymous {
+			e.setFieldByType(v.Field(f.idx), namespace, idx, f.isOmitEmpty)
+			continue
+		}
+
+		if first {
+			namespace = append(namespace, f.name...)
+		} else {
+			namespace = append(namespace, "["...)
+			namespace = append(namespace, f.name...)
+			namespace = append(namespace, "]"...)
+		}
+
+		e.setFieldByType(v.Field(f.idx), namespace, idx, f.isOmitEmpty)
+	}
+}
+
 func (e *encoder) setFieldByType(current reflect.Value, namespace []byte, idx int, isOmitEmpty bool) {
 
 	if idx > -1 && current.Kind() == reflect.Ptr {
@@ -203,7 +236,7 @@ func (e *encoder) setFieldByType(current reflect.Value, namespace []byte, idx in
 		}
 
 		if idx == -1 {
-			e.traverseStruct(v, namespace, idx)
+			e.traverseSubStruct(v, namespace, idx)
 			return
 		}
 
@@ -213,7 +246,7 @@ func (e *encoder) setFieldByType(current reflect.Value, namespace []byte, idx in
 			namespace = append(namespace, ']')
 		}
 
-		e.traverseStruct(v, namespace, -2)
+		e.traverseSubStruct(v, namespace, -2)
 	}
 }
 

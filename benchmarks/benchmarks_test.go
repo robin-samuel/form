@@ -9,11 +9,17 @@ import (
 
 // Simple Benchmarks
 
+type SubStruct struct {
+	Value1 string `form:"value1"`
+	Value2 string `form:"value2"`
+}
+
 type User struct {
-	FirstName string `form:"fname" schema:"fname" formam:"fname"`
-	LastName  string `form:"lname" schema:"lname" formam:"lname"`
-	Email     string `form:"email" schema:"email" formam:"email"`
-	Age       uint8  `form:"age"   schema:"age"   formam:"age"`
+	FirstName  string      `form:"fname" schema:"fname" formam:"fname"`
+	LastName   string      `form:"lname" schema:"lname" formam:"lname"`
+	Email      string      `form:"email" schema:"email" formam:"email"`
+	Age        uint8       `form:"age"   schema:"age"   formam:"age"`
+	SubStructs []SubStruct `form:"substructs"`
 }
 
 func getUserStructValues() url.Values {
@@ -31,6 +37,10 @@ func getUserStruct() *User {
 		LastName:  "Bloggs",
 		Email:     "joeybloggs@gmail.com",
 		Age:       32,
+		SubStructs: []SubStruct{
+			{Value1: "value1", Value2: "value2"},
+			{Value1: "value1", Value2: "value2"},
+		},
 	}
 }
 
