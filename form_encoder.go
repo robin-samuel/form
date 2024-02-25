@@ -2,10 +2,11 @@ package form
 
 import (
 	"bytes"
-	"net/url"
 	"reflect"
 	"strings"
 	"sync"
+
+	"github.com/robin-samuel/furl"
 )
 
 // EncodeCustomTypeFunc allows for registering/overriding types to be parsed.
@@ -127,7 +128,7 @@ func (e *Encoder) RegisterCustomTypeFunc(fn EncodeCustomTypeFunc, types ...inter
 }
 
 // Encode encodes the given values and sets the corresponding struct values
-func (e *Encoder) Encode(v interface{}) (values url.Values, err error) {
+func (e *Encoder) Encode(v interface{}) (values furl.Values, err error) {
 
 	val, kind := ExtractType(reflect.ValueOf(v))
 
@@ -136,7 +137,7 @@ func (e *Encoder) Encode(v interface{}) (values url.Values, err error) {
 	}
 
 	enc := e.dataPool.Get().(*encoder)
-	enc.values = make(url.Values)
+	enc.values = make(furl.Values)
 
 	if kind == reflect.Struct && val.Type() != timeType {
 		enc.traverseStruct(val, enc.namespace[0:0], -1)

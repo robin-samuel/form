@@ -1,2 +1,4 @@
 github.com/go-playground/assert/v2 v2.0.1 h1:MsBgLAaY856+nPRTKrp3/OZK38U/wa0CcBYNjji3q3A=
 github.com/go-playground/assert/v2 v2.0.1/go.mod h1:VDjEfimB/XKnb+ZQfWdccd7VUvScMdVu0Titje2rxJ4=
+github.com/robin-samuel/furl v1.0.3 h1:Ztkn865DNFgBA4l/exKbitLC0kZshmtUzpK4/BGPuwo=
+github.com/robin-samuel/furl v1.0.3/go.mod h1:J9t2isWnLBgSEmJ+m/lWRsxErUXD0x3fadA05QJzORI=

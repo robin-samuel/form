@@ -4,7 +4,7 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/go-playground/form/v4"
+	"github.com/robin-samuel/form"
 )
 
 // Simple Benchmarks
