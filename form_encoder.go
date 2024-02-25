@@ -63,7 +63,8 @@ func NewEncoder() *Encoder {
 		mode:            ModeImplicit,
 		structCache:     newStructCacheMap(),
 		embedAnonymous:  true,
-		namespacePrefix: ".",
+		namespacePrefix: "[",
+		namespaceSuffix: "]",
 	}
 
 	e.dataPool = &sync.Pool{New: func() interface{} {
