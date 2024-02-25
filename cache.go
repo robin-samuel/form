@@ -2,7 +2,6 @@ package form
 
 import (
 	"reflect"
-	"sort"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -124,7 +123,7 @@ func (s *structCacheMap) parseStruct(mode Mode, current reflect.Value, key refle
 		cs.fields = append(cs.fields, cachedField{idx: i, name: name, isAnonymous: fld.Anonymous, isOmitEmpty: isOmitEmpty})
 	}
 
-	sort.Sort(cs.fields)
+	// sort.Sort(cs.fields)
 	s.Set(typ, cs)
 
 	s.lock.Unlock()
