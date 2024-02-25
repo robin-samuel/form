@@ -6,13 +6,13 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/robin-samuel/furl"
+	url "github.com/robin-samuel/furl"
 )
 
 type encoder struct {
 	e         *Encoder
 	errs      EncodeErrors
-	values    furl.Values
+	values    url.Values
 	namespace []byte
 }
 
@@ -34,7 +34,7 @@ func (e *encoder) setVal(namespace []byte, idx int, vals ...string) {
 	}
 
 	e.values[string(namespace)] = arr
-	e.values[furl.ValueOrderKey] = append(e.values[furl.ValueOrderKey], string(namespace))
+	e.values[url.ValueOrderKey] = append(e.values[url.ValueOrderKey], string(namespace))
 }
 
 func (e *encoder) traverseStruct(v reflect.Value, namespace []byte, idx int) {
