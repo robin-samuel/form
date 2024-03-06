@@ -3,6 +3,7 @@ package form
 import (
 	"fmt"
 	"reflect"
+	"slices"
 	"strconv"
 	"time"
 
@@ -34,7 +35,9 @@ func (e *encoder) setVal(namespace []byte, idx int, vals ...string) {
 	}
 
 	e.values[string(namespace)] = arr
-	e.values[url.ValueOrderKey] = append(e.values[url.ValueOrderKey], string(namespace))
+	if !slices.Contains(e.values[url.ValueOrderKey], string(namespace)) {
+		e.values[url.ValueOrderKey] = append(e.values[url.ValueOrderKey], string(namespace))
+	}
 }
 
 func (e *encoder) traverseStruct(v reflect.Value, namespace []byte, idx int) {
